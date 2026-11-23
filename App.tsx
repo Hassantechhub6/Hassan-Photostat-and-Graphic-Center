@@ -48,7 +48,7 @@ export default function App() {
   ] as const;
   return <div className="app" style={{'--accent':accent} as React.CSSProperties}>
     <header className="topbar">
-      <div className="brand"><span className="brand-mark"><Camera size={20}/></span><div><b>Hasan Photo Studio</b><small>Graphic Center · Website Builder</small></div></div>
+      <div className="brand"><span className="brand-mark"><Camera size={20}/></span><div><b>Hasan Photostat</b><small>Graphic Center · Website Builder</small></div></div>
       <button className="mobile-toggle" onClick={()=>setMobileMenu(!mobileMenu)}>{mobileMenu?<X/>:<Menu/>}</button>
       <div className="top-actions"><span className="status"><i/> ڈیمو موڈ</span><button className="publish" onClick={saveAll}><Save size={16}/> محفوظ کریں</button></div>
     </header>
@@ -67,7 +67,7 @@ export default function App() {
         {tab==='design' && <><div className="page-heading"><div><p className="eyebrow">ویب سائٹ کی شکل</p><h1>ڈیزائن سیٹنگز</h1><p className="muted">رنگ اور کاروباری معلومات تبدیل کریں۔</p></div></div><div className="panel"><h3><Palette size={18}/> بنیادی معلومات</h3><div className="form-grid"><label>کاروبار کا نام<input value={name} onChange={e=>setName(e.target.value)}/></label><label>مختصر تعارف<input value={tagline} onChange={e=>setTagline(e.target.value)}/></label><label>بنیادی فون<input value={primary} onChange={e=>setPrimary(e.target.value)}/></label><label>دوسرا فون<input value={secondary} onChange={e=>setSecondary(e.target.value)}/></label><label>تھیم کا رنگ<input type="color" value={accent} onChange={e=>setAccent(e.target.value)}/></label></div><button className="publish" onClick={saveAll}><Save size={16}/> محفوظ کریں</button></div></>}
         {tab==='qr' && <><div className="page-heading"><div><p className="eyebrow">شیئرنگ</p><h1>QR کوڈ مینیجر</h1><p className="muted">یہ ڈیمو موجودہ ویب ایڈریس کے لیے QR بناتا ہے۔</p></div></div><div className="panel qr-panel"><div><h3><QrCode size={18}/> ویب سائٹ QR کوڈ</h3><p className="muted">اصل مستقل QR کے لیے اپنی ہوسٹ کی ہوئی ڈومین استعمال کریں۔</p><button className="publish" onClick={generateQR}>QR کوڈ بنائیں</button>{qr&&<a className="download" href={qr} download="hasan-photo-studio-qr.png">PNG ڈاؤن لوڈ کریں</a>}</div>{qr?<img className="qr-image" src={qr}/>:<div className="qr-placeholder"><QrCode size={60}/><span>QR پیش نظارہ</span></div>}</div></>}
         {tab==='media' && <><div className="page-heading"><div><p className="eyebrow">تصاویر</p><h1>میڈیا لائبریری</h1><p className="muted">اس ابتدائی ورژن میں میڈیا سیکشن کا خاکہ موجود ہے۔</p></div></div><div className="panel media-placeholder"><ImageIcon size={42}/><h3>تصاویر اپ لوڈ کرنے کے لیے</h3><p>آن لائن اسٹوریج فعال کرنے کے لیے Supabase Storage کنفیگر کریں۔</p></div></>}
-        <footer className="main-footer">Hasan Photo Studio Graphic Center <span>·</span> Website Builder Preview</footer>
+        <footer className="main-footer">Hasan Photostat and Graphic Center <span>·</span> Website Builder Preview</footer>
       </main>
     </div>
   </div>;

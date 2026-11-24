@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hassan Photostat and Graphic Center</title>
+<title id="tabTitle">Hassan Photostat and Graphic Center</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#0a1a2e;color:#fff;text-align:center;padding:20px 15px}
 .lang{background:#1c2f45;padding:8px 15px;border-radius:10px;display:inline-block;float:left;font-weight:bold}
-.logo{width:150px;height:150px;border:4px solid #d4af37;border-radius:50%;margin:50px auto 15px;background:#0f2a4a;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.logo span{font-size:38px}
+.logo{width:150px;height:150px;border:4px solid #d4af37;border-radius:50%;margin:50px auto 15px;background:#0f2a4a;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.logo img{width:100%;height:100%;object-fit:cover}
 .logo b{color:#d4af37;font-size:11px;line-height:1.4}
 h1{color:#d4af37;font-size:29px;line-height:1.2}
 .urdu{font-size:22px;margin:12px 0 20px;line-height:1.6}
@@ -20,34 +20,37 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 .easy{background:#00a651}.jazz{background:#f68b1e}
 .follow{color:#d4af37;font-size:26px;margin:30px 0 15px}
 .linkbtn{display:flex;justify-content:space-between;align-items:center;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-decoration:none;margin:10px 0;font-size:18px;font-weight:bold}
-.linkbtn.fb{background:#1877F2}.linkbtn.ig{background:#E1306C}.linkbtn.tt{background:#000;border:1px solid #444}
-.del{background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;display:none}
+.linkbtn.fb{background:#1877F2}.linkbtn.ig{background:#E1306C}.linkbtn.tt{background:#000;border:1px solid #444}.linkbtn.yt{background:#FF0000}.linkbtn.other{background:#444}
+.del{background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
 .panel{background:#fff;color:#222;padding:15px;border-radius:14px;margin-top:25px;text-align:left;display:none}
-.panel input,.panel select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+.panel h3{margin-bottom:10px;color:#0a1a2e}
+.panel input,.panel select,.panel textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
 .panel button{background:#0b5e2e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-size:16px;margin-top:8px}
+.panel label{font-size:13px;font-weight:bold}
 .qrbox{background:#fff;padding:15px;border-radius:14px;margin-top:15px;color:#222}
 .qrbox img{width:180px;height:180px}
 .adminBtn{background:#222;color:#fff;border:1px solid #444;padding:8px 15px;border-radius:8px;margin-top:20px;font-size:13px}
 small{color:#aaa}
+hr{margin:15px 0;border:1px solid #eee}
 </style>
 </head>
 <body>
 
 <div class="lang">English 🌐</div>
 
-<div class="logo"><span>🖨️</span><b>HASSAN<br>PHOTOSTAT<br>AND GRAPHIC<br>CENTER</b></div>
+<div class="logo" id="logoBox"><span style="font-size:38px">🖨️</span><b>HASSAN<br>PHOTOSTAT<br>AND GRAPHIC<br>CENTER</b></div>
 
-<h1>Hassan Photostat and Graphic Center</h1>
-<p class="urdu">ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں</p>
+<h1 id="mainName">Hassan Photostat and Graphic Center</h1>
+<p class="urdu" id="mainDesc">ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں</p>
 
-<a class="btn" href="https://wa.me/923352909899">واٹس ایپ پر پیغام بھیجیں 📱</a>
+<a class="btn" id="waBtn" href="https://wa.me/923352909899">واٹس ایپ پر پیغام بھیجیں 📱</a>
 
-<div class="num">📞 03352909899</div>
-<div class="num">📞 03448991174</div>
+<div class="num" id="num1">📞 03352909899</div>
+<div class="num" id="num2">📞 03448991174</div>
 
 <div class="pay">
-<div class="easy">Easypaisa<br>03352909899<br>03448991174</div>
-<div class="jazz">JazzCash<br>03352909899<br>03448991174</div>
+<div class="easy">Easypaisa<br><span id="easyNum">03352909899<br>03448991174</span></div>
+<div class="jazz">JazzCash<br><span id="jazzNum">03352909899<br>03448991174</span></div>
 </div>
 <p style="font-size:14px;color:#ccc;">پیمنٹ ان دونوں نمبروں پر بھیج سکتے ہیں</p>
 
@@ -64,55 +67,109 @@ small{color:#aaa}
 <button class="adminBtn" onclick="login()">🔒 Admin Login</button>
 
 <div class="panel" id="panel">
-<h3>⚙️ ایڈمن پینل - لنک Add / Remove کریں</h3>
+<h3>⚙️ مکمل ایڈمن پینل - سب کچھ یہاں سے بدلیں</h3>
+
+<label>دکان کا نام</label>
+<input id="e_name" placeholder="Hassan Photostat and Graphic Center">
+<label>نیچے والا اردو ٹیکسٹ</label>
+<textarea id="e_desc" rows="2"></textarea>
+<label>واٹس ایپ نمبر (92 کے ساتھ، بغیر 0 کے)</label>
+<input id="e_wa" placeholder="923352909899">
+<label>پہلا نمبر</label>
+<input id="e_n1" placeholder="03352909899">
+<label>دوسرا نمبر</label>
+<input id="e_n2" placeholder="03448991174">
+<label>Easypaisa نمبر</label>
+<input id="e_easy" placeholder="03352909899">
+<label>JazzCash نمبر</label>
+<input id="e_jazz" placeholder="03448991174">
+<label>لوگو / فوٹو بدلیں</label>
+<input type="file" id="e_photo" accept="image/*">
+<button onclick="saveAll()">✅ سب کچھ Save کریں</button>
+
+<hr>
+<h3>➕ نیا لنک / اکاؤنٹ Add کریں</h3>
 <select id="type">
 <option value="WhatsApp">WhatsApp</option>
 <option value="Facebook">Facebook</option>
 <option value="Instagram">Instagram</option>
 <option value="TikTok">TikTok</option>
+<option value="YouTube">YouTube</option>
+<option value="Other">کوئی اور</option>
 </select>
-<input id="title" placeholder="نام لکھیں - جیسے Instagram">
+<input id="title" placeholder="نام لکھیں - جیسے YouTube">
 <input id="url" placeholder="لنک لکھیں - https://...">
-<button onclick="addLink()">+ Add کر دیں</button>
-<button style="background:#ff3b30" onclick="logout()">Logout کریں</button>
+<button onclick="addLink()">+ لنک Add کر دیں</button>
+<button style="background:#ff3b30" onclick="logout()">🚪 Logout کریں</button>
 </div>
 
 <script>
-let isAdmin = false;
-let links = JSON.parse(localStorage.getItem('hassan_links') || '[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]');
-function show(){
+let isAdmin=false;
+let data = JSON.parse(localStorage.getItem('hassan_full') || '{"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","photo":"","links":[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]}');
+
+function render(){
+document.getElementById('mainName').innerText=data.name;
+document.getElementById('tabTitle').innerText=data.name;
+document.getElementById('mainDesc').innerText=data.desc;
+document.getElementById('waBtn').href='https://wa.me/'+data.wa;
+document.getElementById('num1').innerText='📞 '+data.n1;
+document.getElementById('num2').innerText='📞 '+data.n2;
+document.getElementById('easyNum').innerHTML=data.easy;
+document.getElementById('jazzNum').innerHTML=data.jazz;
+if(data.photo){document.getElementById('logoBox').innerHTML='<img src="'+data.photo+'">';}
 let h=document.getElementById('links'); h.innerHTML='';
-links.forEach((l,i)=>{
-let cls = l.type=='Facebook'?'fb':l.type=='Instagram'?'ig':l.type=='TikTok'?'tt':'';
-let delBtn = isAdmin ? `<button class="del" style="display:block" onclick="delLink(${i})">✕</button>` : '';
+data.links.forEach((l,i)=>{
+let cls = l.type=='Facebook'?'fb':l.type=='Instagram'?'ig':l.type=='TikTok'?'tt':l.type=='YouTube'?'yt':l.type=='Other'?'other':'';
+let delBtn = isAdmin ? `<button class="del" onclick="delLink(${i})">✕</button>` : '';
 h.innerHTML += `<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn ${cls}" style="flex:1" href="${l.url}" target="_blank"><span>${l.name}</span><span>↗</span></a>${delBtn}</div>`;
 });
+// panel me purani values bhardo
+document.getElementById('e_name').value=data.name;
+document.getElementById('e_desc').value=data.desc;
+document.getElementById('e_wa').value=data.wa;
+document.getElementById('e_n1').value=data.n1;
+document.getElementById('e_n2').value=data.n2;
+document.getElementById('e_easy').value=data.easy;
+document.getElementById('e_jazz').value=data.jazz;
+}
+function saveAll(){
+data.name=document.getElementById('e_name').value||data.name;
+data.desc=document.getElementById('e_desc').value||data.desc;
+data.wa=document.getElementById('e_wa').value||data.wa;
+data.n1=document.getElementById('e_n1').value||data.n1;
+data.n2=document.getElementById('e_n2').value||data.n2;
+data.easy=document.getElementById('e_easy').value||data.easy;
+data.jazz=document.getElementById('e_jazz').value||data.jazz;
+let file=document.getElementById('e_photo').files[0];
+if(file){
+let r=new FileReader();
+r.onload=function(e){data.photo=e.target.result;localStorage.setItem('hassan_full',JSON.stringify(data));render();alert('فوٹو بھی بدل گئی!');};
+r.readAsDataURL(file);
+}else{
+localStorage.setItem('hassan_full',JSON.stringify(data));render();alert('سب کچھ Save ہو گیا!');
+}
 }
 function login(){
-let p = prompt('Admin Password لکھیں:');
-if(p === 'hassan123'){
-isAdmin = true;
-document.getElementById('panel').style.display='block';
-show();
-alert('Welcome Hassan! اب آپ Add / Remove کر سکتے ہو');
-}else{alert('غلط پاسورڈ!');}
+let p=prompt('Admin Password لکھیں:');
+if(p==='hassan123'){isAdmin=true;document.getElementById('panel').style.display='block';render();alert('Welcome Hassan! اب آپ ہر چیز بدل سکتے ہو');}
+else{alert('غلط پاسورڈ!');}
 }
-function logout(){isAdmin=false;document.getElementById('panel').style.display='none';show();}
+function logout(){isAdmin=false;document.getElementById('panel').style.display='none';render();alert('Logout ہو گیا');}
 function addLink(){
 let t=document.getElementById('type').value;
-let name=document.getElementById('title').value || t;
+let name=document.getElementById('title').value||t;
 let url=document.getElementById('url').value;
 if(!url){alert('لنک لکھیں');return;}
-links.push({name:name,url:url,type:t});
-localStorage.setItem('hassan_links',JSON.stringify(links));
-show();
+data.links.push({name:name,url:url,type:t});
+localStorage.setItem('hassan_full',JSON.stringify(data));render();
 document.getElementById('url').value='';
+alert(name+' Add ہو گیا!');
 }
-function delLink(i){links.splice(i,1);localStorage.setItem('hassan_links',JSON.stringify(links));show();}
-show();
-let pageUrl = window.location.href;
-document.getElementById('qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(pageUrl);
-document.getElementById('linkText').innerText = pageUrl;
+function delLink(i){if(confirm('اس کو Remove کریں؟')){data.links.splice(i,1);localStorage.setItem('hassan_full',JSON.stringify(data));render();}}
+render();
+let pageUrl=window.location.href;
+document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(pageUrl);
+document.getElementById('linkText').innerText=pageUrl;
 </script>
 </body>
 </html>

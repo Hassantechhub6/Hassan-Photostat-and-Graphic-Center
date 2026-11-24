@@ -30,7 +30,6 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 .wifibox{background:#16293f;border:1px solid #2a4a65;padding:15px;border-radius:14px;margin-top:15px}
 .wifibox img{width:150px;height:150px;background:#fff;padding:5px;border-radius:10px}
 .adminBtn{background:#222;color:#fff;border:1px solid #444;padding:8px 15px;border-radius:8px;margin-top:20px;font-size:13px}
-textarea.codebox{width:100%;height:120px;font-size:11px}
 </style>
 </head>
 <body>
@@ -62,7 +61,8 @@ textarea.codebox{width:100%;height:120px;font-size:11px}
 </div>
 <button class="adminBtn" onclick="login()">🔒 Admin Login</button>
 <div class="panel" id="panel">
-<h3>⚙️ مکمل ایڈمن پینل</h3>
+<h3>⚙️ مکمل ایڈمن پینل - AUTOMATIC</h3>
+<p style="font-size:13px;color:green">✅ اب آپ یہاں سے بدلو گے، سب کے پاس خود بخود بدل جائے گا</p>
 <label>دکان کا نام</label><input id="e_name">
 <label>اردو ٹیکسٹ</label><textarea id="e_desc" rows="2"></textarea>
 <label>واٹس ایپ نمبر (92 کے ساتھ)</label><input id="e_wa">
@@ -73,12 +73,7 @@ textarea.codebox{width:100%;height:120px;font-size:11px}
 <label>WiFi کا نام</label><input id="e_wifiName">
 <label>WiFi پاسورڈ</label><input id="e_wifiPass">
 <label>لوگو / فوٹو بدلیں</label><input type="file" id="e_photo" accept="image/*">
-<button onclick="saveAll()">✅ میرے موبائل میں Save کریں</button>
-<button style="background:#0a1a2e" onclick="makeCodeForAll()">🌍 سب کے لیے نیا کوڈ بنائیں</button>
-<textarea id="finalCode" class="codebox" style="display:none" readonly></textarea>
-<button id="copyCodeBtn" style="display:none;background:#d4af37;color:#000" onclick="copyFinal()">📋 نیا کوڈ کاپی کریں</button>
-<button id="downloadBtn" style="display:none;background:#25D366" onclick="downloadFile()">⬇️ فائل ڈاؤنلوڈ کریں</button>
-<p style="font-size:12px;margin-top:5px;">نوٹ: سب کو نیا دکھانے کے لیے نیچے والی فائل ڈاؤنلوڈ کر کے GitHub میں Upload کر دیں۔</p>
+<button onclick="saveAll()">✅ سب کے لیے Save کریں (Automatic)</button>
 <hr>
 <h3>🔑 پاسورڈ بدلیں</h3>
 <input id="newPass" placeholder="نیا پاسورڈ لکھیں">
@@ -93,12 +88,27 @@ textarea.codebox{width:100%;height:120px;font-size:11px}
 <button style="background:#ff3b30" onclick="logout()">🚪 Logout کریں</button>
 </div>
 <script>
+const BIN_ID = "6b0564c3ac6210605aa028d9";
+const API_KEY = "$2a$10$VUyoME/IXDqQSffOttLmb.GLY8w4Hhvo709Zp6OcCSVfi0UYjyJNy";
 let isAdmin=false;
 let myPass = localStorage.getItem('hassan_pass') || 'hassan123';
 let defaultLinks=[{name:"WhatsApp",url:"https://wa.me/923352909899",type:"WhatsApp"},{name:"Facebook",url:"https://facebook.com",type:"Facebook"},{name:"Instagram",url:"https://instagram.com",type:"Instagram"},{name:"TikTok",url:"https://tiktok.com",type:"TikTok"}];
 let defaultData={"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":defaultLinks};
-let data;
-try{ data=JSON.parse(localStorage.getItem('hassan_full')||"null")||defaultData; if(!data.links||data.links.length===0){data.links=defaultLinks;} }catch(e){ data=defaultData; }
+let data = defaultData;
+
+async function loadFromCloud(){
+  try{
+    let r = await fetch('https://api.jsonbin.io/v3/b/'+BIN_ID+'/latest', {headers:{'X-Master-Key':API_KEY}});
+    let j = await r.json();
+    if(j.record && j.record.name){ data = j.record; if(!data.links) data.links=defaultLinks; }
+  }catch(e){}
+  render();
+}
+async function saveToCloud(){
+  try{
+    await fetch('https://api.jsonbin.io/v3/b/'+BIN_ID, {method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY}, body: JSON.stringify(data)});
+  }catch(e){}
+}
 function render(){
 document.getElementById('mainName').innerText=data.name;
 document.getElementById('mainDesc').innerText=data.desc;
@@ -132,28 +142,4 @@ function saveAll(){
 data.name=document.getElementById('e_name').value||data.name; data.desc=document.getElementById('e_desc').value||data.desc;
 data.wa=document.getElementById('e_wa').value||data.wa; data.n1=document.getElementById('e_n1').value||data.n1; data.n2=document.getElementById('e_n2').value||data.n2;
 data.easy=document.getElementById('e_easy').value||data.easy; data.jazz=document.getElementById('e_jazz').value||data.jazz;
-data.wifiName=document.getElementById('e_wifiName').value||data.wifiName; data.wifiPass=document.getElementById('e_wifiPass').value||data.wifiPass;
-let f=document.getElementById('e_photo');
-if(f.files && f.files[0]){ let r=new FileReader(); r.onload=function(e){ data.photo=e.target.result; localStorage.setItem('hassan_full',JSON.stringify(data)); render(); alert('Save ہو گیا!'); }; r.readAsDataURL(f.files[0]); return; }
-localStorage.setItem('hassan_full',JSON.stringify(data)); render(); alert('Save ہو گیا!');
-}
-function login(){ let p=prompt('Admin پاسورڈ لکھیں:'); if(p===myPass){ isAdmin=true; document.getElementById('panel').style.display='block'; render(); alert('Welcome Admin!'); } else if(p!==null){ alert('غلط پاسورڈ!'); } }
-function logout(){ isAdmin=false; document.getElementById('panel').style.display='none'; render(); }
-function changePass(){ let np=document.getElementById('newPass').value; if(!np){alert('نیا پاسورڈ لکھیں');return;} myPass=np; localStorage.setItem('hassan_pass',np); alert('پاسورڈ بدل گیا: '+np); }
-function addLink(){ let t=document.getElementById('type').value; let ti=document.getElementById('title').value||t; let u=document.getElementById('url').value; if(!u){alert('لنک لکھیں');return;} if(!u.startsWith('http')){u='https://'+u;} data.links.push({name:ti,url:u,type:t}); localStorage.setItem('hassan_full',JSON.stringify(data)); render(); document.getElementById('url').value=''; alert('لنک Add ہو گیا!'); }
-function delLink(i){ if(confirm('یہ لنک ڈیلیٹ کریں؟')){ data.links.splice(i,1); localStorage.setItem('hassan_full',JSON.stringify(data)); render(); } }
-function resetAll(){ if(confirm('کیا سب کچھ پہلے جیسا کر دوں؟')){ localStorage.removeItem('hassan_full'); data=JSON.parse(JSON.stringify(defaultData)); render(); alert('سب واپس آ گیا!'); } }
-function makeCodeForAll(){
-let code=document.documentElement.outerHTML;
-let newData=JSON.stringify(data).replace(/</g,'\\u003c');
-code=code.replace(/let data;[\s\S]*?function render/, 'let data='+newData+'; function render');
-document.getElementById('finalCode').style.display='block'; document.getElementById('finalCode').value='<!DOCTYPE html>\n'+code;
-document.getElementById('copyCodeBtn').style.display='block'; document.getElementById('downloadBtn').style.display='block';
-alert('نیا کوڈ بن گیا! نیچے سے ڈاؤنلوڈ کریں');
-}
-function copyFinal(){ let t=document.getElementById('finalCode'); t.select(); document.execCommand('copy'); alert('کوڈ کاپی ہو گیا!'); }
-function downloadFile(){ let blob=new Blob([document.getElementById('finalCode').value],{type:'text/html'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='index.html'; a.click(); }
-render();
-</script>
-</body>
-</html>
+data.wifi

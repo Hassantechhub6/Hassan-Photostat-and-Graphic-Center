@@ -81,8 +81,8 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 <hr>
 <h3>➕ نیا لنک Add کریں</h3>
 <select id="type"><option value="WhatsApp">WhatsApp</option><option value="Facebook">Facebook</option><option value="Instagram">Instagram</option><option value="TikTok">TikTok</option><option value="YouTube">YouTube</option><option value="Other">کوئی اور</option></select>
-<input id="title" placeholder="نام - جیسے YouTube">
-<input id="url" placeholder="لنک - https://...">
+<input id="title" placeholder="نام - جیسے Facebook Page">
+<input id="url" placeholder="لنک - https://facebook.com/...">
 <button onclick="addLink()">+ لنک Add کر دیں</button>
 <button style="background:#ff9800" onclick="resetAll()">♻️ سب کچھ واپس لاؤ (Reset)</button>
 <button style="background:#ff3b30" onclick="logout()">🚪 Logout کریں</button>
@@ -92,15 +92,15 @@ const BIN_ID = "6b0564c3ac6210605aa028d9";
 const API_KEY = "$2a$10$VUyoME/IXDqQSffOttLmb.GLY8w4Hhvo709Zp6OcCSVfi0UYjyJNy";
 let isAdmin=false;
 let myPass = localStorage.getItem('hassan_pass') || 'hassan123';
-let defaultLinks=[{name:"WhatsApp",url:"https://wa.me/923352909899",type:"WhatsApp"},{name:"Facebook",url:"https://facebook.com",type:"Facebook"},{name:"Instagram",url:"https://instagram.com",type:"Instagram"},{name:"TikTok",url:"https://tiktok.com",type:"TikTok"}];
+let defaultLinks=[{name:"WhatsApp",url:"https://wa.me/923352909899",type:"WhatsApp"},{name:"Facebook",url:"https://facebook.com",type:"Facebook"},{name:"Instagram",url:"https://instagram.com",type:"Instagram"},{name:"TikTok",url:"https://tiktok.com",type:"TikTok"},{name:"YouTube",url:"https://youtube.com",type:"YouTube"}];
 let defaultData={"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":defaultLinks};
-let data = defaultData;
+let data = JSON.parse(JSON.stringify(defaultData));
 
 async function loadFromCloud(){
   try{
     let r = await fetch('https://api.jsonbin.io/v3/b/'+BIN_ID+'/latest', {headers:{'X-Master-Key':API_KEY}});
     let j = await r.json();
-    if(j.record && j.record.name){ data = j.record; if(!data.links) data.links=defaultLinks; }
+    if(j.record && j.record.name){ data = {...defaultData, ...j.record}; if(!data.links || data.links.length==0) data.links=defaultLinks; }
   }catch(e){}
   render();
 }
@@ -130,9 +130,9 @@ document.getElementById('e_wa').value=data.wa; document.getElementById('e_n1').v
 document.getElementById('e_easy').value=data.easy; document.getElementById('e_jazz').value=data.jazz;
 document.getElementById('e_wifiName').value=data.wifiName; document.getElementById('e_wifiPass').value=data.wifiPass;
 let wifiStr='WIFI:T:WPA;S:'+data.wifiName+';P:'+data.wifiPass+';;';
-document.getElementById('wifiQR').src='https://quickchart.io/qr?text='+encodeURIComponent(wifiStr)+'&size=150';
+document.getElementById('wifiQR').src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(wifiStr);
 let pageUrl=location.href;
-document.getElementById('qr').src='https://quickchart.io/qr?text='+encodeURIComponent(pageUrl)+'&size=180';
+document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(pageUrl);
 document.getElementById('linkText').innerText=pageUrl;
 }
 function payEasy(){ window.location.href='tel:*786*1*1*'+data.easy+'%23'; alert('Easypaisa کھل رہا ہے، نمبر '+data.easy+' لکھ کر پیسے بھیج دیں'); }
@@ -142,4 +142,18 @@ function saveAll(){
 data.name=document.getElementById('e_name').value||data.name; data.desc=document.getElementById('e_desc').value||data.desc;
 data.wa=document.getElementById('e_wa').value||data.wa; data.n1=document.getElementById('e_n1').value||data.n1; data.n2=document.getElementById('e_n2').value||data.n2;
 data.easy=document.getElementById('e_easy').value||data.easy; data.jazz=document.getElementById('e_jazz').value||data.jazz;
-data.wifi
+data.wifiName=document.getElementById('e_wifiName').value||data.wifiName; data.wifiPass=document.getElementById('e_wifiPass').value||data.wifiPass;
+let f=document.getElementById('e_photo');
+if(f.files && f.files[0]){ let r=new FileReader(); r.onload=function(e){ data.photo=e.target.result; saveToCloud(); render(); alert('Save ہو گیا! سب کے لیے Automatic Update ہو گیا!'); }; r.readAsDataURL(f.files[0]); return; }
+saveToCloud(); render(); alert('Save ہو گیا! سب کے لیے Automatic Update ہو گیا!');
+}
+function login(){ let p=prompt('Admin پاسورڈ لکھیں:'); if(p===myPass){ isAdmin=true; document.getElementById('panel').style.display='block'; render(); alert('Welcome Admin!'); } else if(p!==null){ alert('غلط پاسورڈ!'); } }
+function logout(){ isAdmin=false; document.getElementById('panel').style.display='none'; render(); }
+function changePass(){ let np=document.getElementById('newPass').value; if(!np){alert('نیا پاسورڈ لکھیں');return;} myPass=np; localStorage.setItem('hassan_pass',np); alert('پاسورڈ بدل گیا: '+np); }
+function addLink(){ let t=document.getElementById('type').value; let ti=document.getElementById('title').value||t; let u=document.getElementById('url').value; if(!u){alert('لنک لکھیں');return;} if(!u.startsWith('http')){u='https://'+u;} data.links.push({name:ti,url:u,type:t}); saveToCloud(); render(); document.getElementById('url').value=''; alert('لنک Add ہو گیا! سب کے لیے Automatic!'); }
+function delLink(i){ if(confirm('یہ لنک ڈیلیٹ کریں؟')){ data.links.splice(i,1); saveToCloud(); render(); } }
+function resetAll(){ if(confirm('کیا سب کچھ پہلے جیسا کر دوں؟')){ data=JSON.parse(JSON.stringify(defaultData)); saveToCloud(); render(); alert('سب واپس آ گیا!'); } }
+loadFromCloud();
+</script>
+</body>
+</html>

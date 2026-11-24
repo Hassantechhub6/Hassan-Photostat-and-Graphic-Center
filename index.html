@@ -34,15 +34,12 @@ textarea.codebox{width:100%;height:120px;font-size:11px}
 </style>
 </head>
 <body>
-
 <div class="logo" id="logoBox"><span style="font-size:38px">🖨️</span><b>HASSAN<br>PHOTOSTAT<br>AND GRAPHIC<br>CENTER</b></div>
 <h1 id="mainName">Hassan Photostat and Graphic Center</h1>
 <p class="urdu" id="mainDesc">ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں</p>
-
 <a class="btn" id="waBtn" href="https://wa.me/923352909899">واٹس ایپ پر پیغام بھیجیں 📱</a>
 <div class="num" id="num1">📞 03352909899</div>
 <div class="num" id="num2">📞 03448991174</div>
-
 <div class="pay">
 <div class="easy">Easypaisa<br><span id="easyNum">03352909899</span><br>
 <button class="payBtn" onclick="payEasy()">💸 Direct Pay - Easypaisa کھولیں</button>
@@ -51,24 +48,19 @@ textarea.codebox{width:100%;height:120px;font-size:11px}
 <button class="payBtn" onclick="payJazz()">💸 Direct Pay - JazzCash کھولیں</button>
 <button class="payBtn" onclick="copyNum(data.jazz)">📋 نمبر کاپی کریں</button></div>
 </div>
-
 <h2 class="follow">ہمیں فالو کریں</h2>
 <div id="links"></div>
-
 <div class="wifibox">
 <h3 style="color:#d4af37">📶 Free WiFi</h3>
 <p id="wifiNameText" style="margin:8px 0">WiFi: Hassan Center</p>
 <img id="wifiQR" src="">
 <p style="font-size:13px;margin-top:8px;color:#ccc;">QR اسکین کریں، WiFi خود بخود کنیکٹ ہو جائے گا</p>
 </div>
-
 <div class="qrbox">
 <h3>اس پیج کا QR Code</h3><br>
 <img id="qr" src=""><br><br><small id="linkText"></small>
 </div>
-
 <button class="adminBtn" onclick="login()">🔒 Admin Login</button>
-
 <div class="panel" id="panel">
 <h3>⚙️ مکمل ایڈمن پینل</h3>
 <label>دکان کا نام</label><input id="e_name">
@@ -85,27 +77,28 @@ textarea.codebox{width:100%;height:120px;font-size:11px}
 <button style="background:#0a1a2e" onclick="makeCodeForAll()">🌍 سب کے لیے نیا کوڈ بنائیں</button>
 <textarea id="finalCode" class="codebox" style="display:none" readonly></textarea>
 <button id="copyCodeBtn" style="display:none;background:#d4af37;color:#000" onclick="copyFinal()">📋 نیا کوڈ کاپی کریں</button>
-<button id="downloadBtn" style="display:none;background:#25D366" onclick="downloadFile()">⬇️ فائل ڈاؤنلوڈ کریں (کاپی نہیں کرنا)</button>
+<button id="downloadBtn" style="display:none;background:#25D366" onclick="downloadFile()">⬇️ فائل ڈاؤنلوڈ کریں</button>
 <p style="font-size:12px;margin-top:5px;">نوٹ: سب کو نیا دکھانے کے لیے نیچے والی فائل ڈاؤنلوڈ کر کے GitHub میں Upload کر دیں۔</p>
-
 <hr>
 <h3>🔑 پاسورڈ بدلیں</h3>
 <input id="newPass" placeholder="نیا پاسورڈ لکھیں">
 <button style="background:#ff9800" onclick="changePass()">پاسورڈ Change کریں</button>
-
 <hr>
 <h3>➕ نیا لنک Add کریں</h3>
 <select id="type"><option value="WhatsApp">WhatsApp</option><option value="Facebook">Facebook</option><option value="Instagram">Instagram</option><option value="TikTok">TikTok</option><option value="YouTube">YouTube</option><option value="Other">کوئی اور</option></select>
 <input id="title" placeholder="نام - جیسے YouTube">
 <input id="url" placeholder="لنک - https://...">
 <button onclick="addLink()">+ لنک Add کر دیں</button>
+<button style="background:#ff9800" onclick="resetAll()">♻️ سب کچھ واپس لاؤ (Reset)</button>
 <button style="background:#ff3b30" onclick="logout()">🚪 Logout کریں</button>
 </div>
-
 <script>
 let isAdmin=false;
 let myPass = localStorage.getItem('hassan_pass') || 'hassan123';
-let data = JSON.parse(localStorage.getItem('hassan_full') || '{"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]}');
+let defaultLinks=[{name:"WhatsApp",url:"https://wa.me/923352909899",type:"WhatsApp"},{name:"Facebook",url:"https://facebook.com",type:"Facebook"},{name:"Instagram",url:"https://instagram.com",type:"Instagram"},{name:"TikTok",url:"https://tiktok.com",type:"TikTok"}];
+let defaultData={"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":defaultLinks};
+let data;
+try{ data=JSON.parse(localStorage.getItem('hassan_full')||"null")||defaultData; if(!data.links||data.links.length===0){data.links=defaultLinks;} }catch(e){ data=defaultData; }
 function render(){
 document.getElementById('mainName').innerText=data.name;
 document.getElementById('mainDesc').innerText=data.desc;
@@ -119,15 +112,18 @@ if(data.photo){document.getElementById('logoBox').innerHTML='<img src="'+data.ph
 let h=document.getElementById('links'); h.innerHTML='';
 data.links.forEach((l,i)=>{
 let cls = l.type=='Facebook'?'fb':l.type=='Instagram'?'ig':l.type=='TikTok'?'tt':l.type=='YouTube'?'yt':l.type=='Other'?'other':'';
-let delBtn = isAdmin ? `<button class="del" onclick="delLink(${i})">✕</button>` : '';
-h.innerHTML += `<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn ${cls}" style="flex:1" href="${l.url}" target="_blank"><span>${l.name}</span><span>↗</span></a>${delBtn}</div>`;
+let delBtn = isAdmin ? '<button class="del" onclick="delLink('+i+')">✕</button>' : '';
+h.innerHTML += '<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn '+cls+'" style="flex:1" href="'+l.url+'" target="_blank"><span>'+l.name+'</span><span>↗</span></a>'+delBtn+'</div>';
 });
 document.getElementById('e_name').value=data.name; document.getElementById('e_desc').value=data.desc;
 document.getElementById('e_wa').value=data.wa; document.getElementById('e_n1').value=data.n1; document.getElementById('e_n2').value=data.n2;
 document.getElementById('e_easy').value=data.easy; document.getElementById('e_jazz').value=data.jazz;
 document.getElementById('e_wifiName').value=data.wifiName; document.getElementById('e_wifiPass').value=data.wifiPass;
-let wifiStr = 'WIFI:T:WPA;S:'+data.wifiName+';P:'+data.wifiPass+';;';
-document.getElementById('wifiQR').src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(wifiStr);
+let wifiStr='WIFI:T:WPA;S:'+data.wifiName+';P:'+data.wifiPass+';;';
+document.getElementById('wifiQR').src='https://quickchart.io/qr?text='+encodeURIComponent(wifiStr)+'&size=150';
+let pageUrl=location.href;
+document.getElementById('qr').src='https://quickchart.io/qr?text='+encodeURIComponent(pageUrl)+'&size=180';
+document.getElementById('linkText').innerText=pageUrl;
 }
 function payEasy(){ window.location.href='tel:*786*1*1*'+data.easy+'%23'; alert('Easypaisa کھل رہا ہے، نمبر '+data.easy+' لکھ کر پیسے بھیج دیں'); }
 function payJazz(){ window.location.href='tel:*786*1*1*'+data.jazz+'%23'; alert('JazzCash کھل رہا ہے، نمبر '+data.jazz+' لکھ کر پیسے بھیج دیں'); }
@@ -136,4 +132,28 @@ function saveAll(){
 data.name=document.getElementById('e_name').value||data.name; data.desc=document.getElementById('e_desc').value||data.desc;
 data.wa=document.getElementById('e_wa').value||data.wa; data.n1=document.getElementById('e_n1').value||data.n1; data.n2=document.getElementById('e_n2').value||data.n2;
 data.easy=document.getElementById('e_easy').value||data.easy; data.jazz=document.getElementById('e_jazz').value||data.jazz;
-data.wifiName=document.getElementById('e_wifiName').value||data
+data.wifiName=document.getElementById('e_wifiName').value||data.wifiName; data.wifiPass=document.getElementById('e_wifiPass').value||data.wifiPass;
+let f=document.getElementById('e_photo');
+if(f.files && f.files[0]){ let r=new FileReader(); r.onload=function(e){ data.photo=e.target.result; localStorage.setItem('hassan_full',JSON.stringify(data)); render(); alert('Save ہو گیا!'); }; r.readAsDataURL(f.files[0]); return; }
+localStorage.setItem('hassan_full',JSON.stringify(data)); render(); alert('Save ہو گیا!');
+}
+function login(){ let p=prompt('Admin پاسورڈ لکھیں:'); if(p===myPass){ isAdmin=true; document.getElementById('panel').style.display='block'; render(); alert('Welcome Admin!'); } else if(p!==null){ alert('غلط پاسورڈ!'); } }
+function logout(){ isAdmin=false; document.getElementById('panel').style.display='none'; render(); }
+function changePass(){ let np=document.getElementById('newPass').value; if(!np){alert('نیا پاسورڈ لکھیں');return;} myPass=np; localStorage.setItem('hassan_pass',np); alert('پاسورڈ بدل گیا: '+np); }
+function addLink(){ let t=document.getElementById('type').value; let ti=document.getElementById('title').value||t; let u=document.getElementById('url').value; if(!u){alert('لنک لکھیں');return;} if(!u.startsWith('http')){u='https://'+u;} data.links.push({name:ti,url:u,type:t}); localStorage.setItem('hassan_full',JSON.stringify(data)); render(); document.getElementById('url').value=''; alert('لنک Add ہو گیا!'); }
+function delLink(i){ if(confirm('یہ لنک ڈیلیٹ کریں؟')){ data.links.splice(i,1); localStorage.setItem('hassan_full',JSON.stringify(data)); render(); } }
+function resetAll(){ if(confirm('کیا سب کچھ پہلے جیسا کر دوں؟')){ localStorage.removeItem('hassan_full'); data=JSON.parse(JSON.stringify(defaultData)); render(); alert('سب واپس آ گیا!'); } }
+function makeCodeForAll(){
+let code=document.documentElement.outerHTML;
+let newData=JSON.stringify(data).replace(/</g,'\\u003c');
+code=code.replace(/let data;[\s\S]*?function render/, 'let data='+newData+'; function render');
+document.getElementById('finalCode').style.display='block'; document.getElementById('finalCode').value='<!DOCTYPE html>\n'+code;
+document.getElementById('copyCodeBtn').style.display='block'; document.getElementById('downloadBtn').style.display='block';
+alert('نیا کوڈ بن گیا! نیچے سے ڈاؤنلوڈ کریں');
+}
+function copyFinal(){ let t=document.getElementById('finalCode'); t.select(); document.execCommand('copy'); alert('کوڈ کاپی ہو گیا!'); }
+function downloadFile(){ let blob=new Blob([document.getElementById('finalCode').value],{type:'text/html'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='index.html'; a.click(); }
+render();
+</script>
+</body>
+</html>

@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="tabTitle">Hassan Photostat and Graphic Center</title>
+<title>Hassan Photostat and Graphic Center</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#0a1a2e;color:#fff;text-align:center;padding:20px 15px}
-.lang{background:#1c2f45;padding:8px 15px;border-radius:10px;display:inline-block;float:left;font-weight:bold}
-.logo{width:150px;height:150px;border:4px solid #d4af37;border-radius:50%;margin:50px auto 15px;background:#0f2a4a;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.logo{width:150px;height:150px;border:4px solid #d4af37;border-radius:50%;margin:20px auto 15px;background:#0f2a4a;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .logo img{width:100%;height:100%;object-fit:cover}
 .logo b{color:#d4af37;font-size:11px;line-height:1.4}
 h1{color:#d4af37;font-size:29px;line-height:1.2}
@@ -16,106 +15,105 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 .btn{display:block;background:#25D366;color:#fff;padding:16px;border-radius:14px;text-decoration:none;font-size:22px;font-weight:bold;margin:12px 0}
 .num{background:#16293f;border:1px solid #2a4a65;padding:16px;border-radius:14px;margin:12px 0;font-size:20px;font-weight:bold}
 .pay{display:flex;gap:10px;margin:12px 0}
-.pay div{flex:1;padding:15px;border-radius:14px;font-weight:bold;font-size:17px}
+.pay div{flex:1;padding:15px;border-radius:14px;font-weight:bold;font-size:16px}
 .easy{background:#00a651}.jazz{background:#f68b1e}
+.payBtn{background:#fff;color:#000;border:none;padding:8px 12px;border-radius:8px;margin-top:8px;font-weight:bold;width:100%}
 .follow{color:#d4af37;font-size:26px;margin:30px 0 15px}
 .linkbtn{display:flex;justify-content:space-between;align-items:center;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-decoration:none;margin:10px 0;font-size:18px;font-weight:bold}
 .linkbtn.fb{background:#1877F2}.linkbtn.ig{background:#E1306C}.linkbtn.tt{background:#000;border:1px solid #444}.linkbtn.yt{background:#FF0000}.linkbtn.other{background:#444}
 .del{background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
 .panel{background:#fff;color:#222;padding:15px;border-radius:14px;margin-top:25px;text-align:left;display:none}
-.panel h3{margin-bottom:10px;color:#0a1a2e}
 .panel input,.panel select,.panel textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
 .panel button{background:#0b5e2e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-size:16px;margin-top:8px}
-.panel label{font-size:13px;font-weight:bold}
 .qrbox{background:#fff;padding:15px;border-radius:14px;margin-top:15px;color:#222}
 .qrbox img{width:180px;height:180px}
+.wifibox{background:#16293f;border:1px solid #2a4a65;padding:15px;border-radius:14px;margin-top:15px}
+.wifibox img{width:150px;height:150px;background:#fff;padding:5px;border-radius:10px}
 .adminBtn{background:#222;color:#fff;border:1px solid #444;padding:8px 15px;border-radius:8px;margin-top:20px;font-size:13px}
-small{color:#aaa}
-hr{margin:15px 0;border:1px solid #eee}
+textarea.codebox{width:100%;height:150px;font-size:11px}
 </style>
 </head>
 <body>
 
-<div class="lang">English 🌐</div>
-
 <div class="logo" id="logoBox"><span style="font-size:38px">🖨️</span><b>HASSAN<br>PHOTOSTAT<br>AND GRAPHIC<br>CENTER</b></div>
-
 <h1 id="mainName">Hassan Photostat and Graphic Center</h1>
 <p class="urdu" id="mainDesc">ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں</p>
 
 <a class="btn" id="waBtn" href="https://wa.me/923352909899">واٹس ایپ پر پیغام بھیجیں 📱</a>
-
 <div class="num" id="num1">📞 03352909899</div>
 <div class="num" id="num2">📞 03448991174</div>
 
 <div class="pay">
-<div class="easy">Easypaisa<br><span id="easyNum">03352909899<br>03448991174</span></div>
-<div class="jazz">JazzCash<br><span id="jazzNum">03352909899<br>03448991174</span></div>
+<div class="easy">Easypaisa<br><span id="easyNum">03352909899</span><br>
+<button class="payBtn" onclick="payEasy()">💸 Direct Pay - Easypaisa کھولیں</button>
+<button class="payBtn" onclick="copyNum(data.easy)">📋 نمبر کاپی کریں</button></div>
+<div class="jazz">JazzCash<br><span id="jazzNum">03448991174</span><br>
+<button class="payBtn" onclick="payJazz()">💸 Direct Pay - JazzCash کھولیں</button>
+<button class="payBtn" onclick="copyNum(data.jazz)">📋 نمبر کاپی کریں</button></div>
 </div>
-<p style="font-size:14px;color:#ccc;">پیمنٹ ان دونوں نمبروں پر بھیج سکتے ہیں</p>
 
 <h2 class="follow">ہمیں فالو کریں</h2>
 <div id="links"></div>
 
+<div class="wifibox">
+<h3 style="color:#d4af37">📶 Free WiFi</h3>
+<p id="wifiNameText" style="margin:8px 0">WiFi: Hassan Center</p>
+<img id="wifiQR" src="">
+<p style="font-size:13px;margin-top:8px;color:#ccc;">QR اسکین کریں، WiFi خود بخود کنیکٹ ہو جائے گا</p>
+</div>
+
 <div class="qrbox">
-<h3>اس پیج کا QR Code</h3>
-<p>کوئی بھی اسکین کرے گا تو یہی پیج کھل جائے گا</p><br>
-<img id="qr" src="">
-<br><br><small id="linkText"></small>
+<h3>اس پیج کا QR Code</h3><br>
+<img id="qr" src=""><br><br><small id="linkText"></small>
 </div>
 
 <button class="adminBtn" onclick="login()">🔒 Admin Login</button>
 
 <div class="panel" id="panel">
-<h3>⚙️ مکمل ایڈمن پینل - سب کچھ یہاں سے بدلیں</h3>
-
-<label>دکان کا نام</label>
-<input id="e_name" placeholder="Hassan Photostat and Graphic Center">
-<label>نیچے والا اردو ٹیکسٹ</label>
-<textarea id="e_desc" rows="2"></textarea>
-<label>واٹس ایپ نمبر (92 کے ساتھ، بغیر 0 کے)</label>
-<input id="e_wa" placeholder="923352909899">
-<label>پہلا نمبر</label>
-<input id="e_n1" placeholder="03352909899">
-<label>دوسرا نمبر</label>
-<input id="e_n2" placeholder="03448991174">
-<label>Easypaisa نمبر</label>
-<input id="e_easy" placeholder="03352909899">
-<label>JazzCash نمبر</label>
-<input id="e_jazz" placeholder="03448991174">
-<label>لوگو / فوٹو بدلیں</label>
-<input type="file" id="e_photo" accept="image/*">
-<button onclick="saveAll()">✅ سب کچھ Save کریں</button>
+<h3>⚙️ مکمل ایڈمن پینل</h3>
+<label>دکان کا نام</label><input id="e_name">
+<label>اردو ٹیکسٹ</label><textarea id="e_desc" rows="2"></textarea>
+<label>واٹس ایپ نمبر (92 کے ساتھ)</label><input id="e_wa">
+<label>پہلا نمبر</label><input id="e_n1">
+<label>دوسرا نمبر</label><input id="e_n2">
+<label>Easypaisa نمبر</label><input id="e_easy">
+<label>JazzCash نمبر</label><input id="e_jazz">
+<label>WiFi کا نام</label><input id="e_wifiName" placeholder="Hassan Center">
+<label>WiFi پاسورڈ</label><input id="e_wifiPass" placeholder="12345678">
+<label>لوگو / فوٹو بدلیں</label><input type="file" id="e_photo" accept="image/*">
+<button onclick="saveAll()">✅ میرے موبائل میں Save کریں</button>
+<button style="background:#0a1a2e" onclick="makeCodeForAll()">🌍 سب کے لیے نیا کوڈ بنائیں</button>
+<textarea id="finalCode" class="codebox" style="display:none" readonly></textarea>
+<button id="copyCodeBtn" style="display:none;background:#d4af37;color:#000" onclick="copyFinal()">📋 نیا کوڈ کاپی کریں</button>
+<p style="font-size:12px;margin-top:5px;">نوٹ: سب کو نیا دکھانے کے لیے اوپر والا نیا کوڈ کاپی کر کے GitHub میں پیسٹ کرنا لازمی ہے۔</p>
 
 <hr>
-<h3>➕ نیا لنک / اکاؤنٹ Add کریں</h3>
-<select id="type">
-<option value="WhatsApp">WhatsApp</option>
-<option value="Facebook">Facebook</option>
-<option value="Instagram">Instagram</option>
-<option value="TikTok">TikTok</option>
-<option value="YouTube">YouTube</option>
-<option value="Other">کوئی اور</option>
-</select>
-<input id="title" placeholder="نام لکھیں - جیسے YouTube">
-<input id="url" placeholder="لنک لکھیں - https://...">
+<h3>🔑 پاسورڈ بدلیں</h3>
+<input id="newPass" placeholder="نیا پاسورڈ لکھیں - جیسے Khan Muhammad">
+<button style="background:#ff9800" onclick="changePass()">پاسورڈ Change کریں</button>
+
+<hr>
+<h3>➕ نیا لنک Add کریں</h3>
+<select id="type"><option value="WhatsApp">WhatsApp</option><option value="Facebook">Facebook</option><option value="Instagram">Instagram</option><option value="TikTok">TikTok</option><option value="YouTube">YouTube</option><option value="Other">کوئی اور</option></select>
+<input id="title" placeholder="نام - جیسے YouTube">
+<input id="url" placeholder="لنک - https://...">
 <button onclick="addLink()">+ لنک Add کر دیں</button>
 <button style="background:#ff3b30" onclick="logout()">🚪 Logout کریں</button>
 </div>
 
 <script>
 let isAdmin=false;
-let data = JSON.parse(localStorage.getItem('hassan_full') || '{"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","photo":"","links":[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]}');
-
+let myPass = localStorage.getItem('hassan_pass') || 'hassan123';
+let data = JSON.parse(localStorage.getItem('hassan_full') || '{"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]}');
 function render(){
 document.getElementById('mainName').innerText=data.name;
-document.getElementById('tabTitle').innerText=data.name;
 document.getElementById('mainDesc').innerText=data.desc;
 document.getElementById('waBtn').href='https://wa.me/'+data.wa;
 document.getElementById('num1').innerText='📞 '+data.n1;
 document.getElementById('num2').innerText='📞 '+data.n2;
-document.getElementById('easyNum').innerHTML=data.easy;
-document.getElementById('jazzNum').innerHTML=data.jazz;
+document.getElementById('easyNum').innerText=data.easy;
+document.getElementById('jazzNum').innerText=data.jazz;
+document.getElementById('wifiNameText').innerText='WiFi: '+data.wifiName;
 if(data.photo){document.getElementById('logoBox').innerHTML='<img src="'+data.photo+'">';}
 let h=document.getElementById('links'); h.innerHTML='';
 data.links.forEach((l,i)=>{
@@ -123,49 +121,38 @@ let cls = l.type=='Facebook'?'fb':l.type=='Instagram'?'ig':l.type=='TikTok'?'tt'
 let delBtn = isAdmin ? `<button class="del" onclick="delLink(${i})">✕</button>` : '';
 h.innerHTML += `<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn ${cls}" style="flex:1" href="${l.url}" target="_blank"><span>${l.name}</span><span>↗</span></a>${delBtn}</div>`;
 });
-// panel me purani values bhardo
-document.getElementById('e_name').value=data.name;
-document.getElementById('e_desc').value=data.desc;
-document.getElementById('e_wa').value=data.wa;
-document.getElementById('e_n1').value=data.n1;
-document.getElementById('e_n2').value=data.n2;
-document.getElementById('e_easy').value=data.easy;
-document.getElementById('e_jazz').value=data.jazz;
+document.getElementById('e_name').value=data.name; document.getElementById('e_desc').value=data.desc;
+document.getElementById('e_wa').value=data.wa; document.getElementById('e_n1').value=data.n1; document.getElementById('e_n2').value=data.n2;
+document.getElementById('e_easy').value=data.easy; document.getElementById('e_jazz').value=data.jazz;
+document.getElementById('e_wifiName').value=data.wifiName; document.getElementById('e_wifiPass').value=data.wifiPass;
+let wifiStr = 'WIFI:T:WPA;S:'+data.wifiName+';P:'+data.wifiPass+';;';
+document.getElementById('wifiQR').src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(wifiStr);
 }
+function payEasy(){ window.location.href='tel:*786*1*1*'+data.easy+'%23'; alert('Easypaisa کھل رہا ہے، وہاں اپنا نمبر '+data.easy+' لکھ کر پیسے بھیج دیں'); }
+function payJazz(){ window.location.href='tel:*786*1*1*'+data.jazz+'%23'; alert('JazzCash کھل رہا ہے، وہاں اپنا نمبر '+data.jazz+' لکھ کر پیسے بھیج دیں'); }
+function copyNum(n){ navigator.clipboard.writeText(n); alert('نمبر کاپی ہو گیا: '+n); }
 function saveAll(){
-data.name=document.getElementById('e_name').value||data.name;
-data.desc=document.getElementById('e_desc').value||data.desc;
-data.wa=document.getElementById('e_wa').value||data.wa;
-data.n1=document.getElementById('e_n1').value||data.n1;
-data.n2=document.getElementById('e_n2').value||data.n2;
-data.easy=document.getElementById('e_easy').value||data.easy;
-data.jazz=document.getElementById('e_jazz').value||data.jazz;
+data.name=document.getElementById('e_name').value||data.name; data.desc=document.getElementById('e_desc').value||data.desc;
+data.wa=document.getElementById('e_wa').value||data.wa; data.n1=document.getElementById('e_n1').value||data.n1; data.n2=document.getElementById('e_n2').value||data.n2;
+data.easy=document.getElementById('e_easy').value||data.easy; data.jazz=document.getElementById('e_jazz').value||data.jazz;
+data.wifiName=document.getElementById('e_wifiName').value||data.wifiName; data.wifiPass=document.getElementById('e_wifiPass').value||data.wifiPass;
 let file=document.getElementById('e_photo').files[0];
-if(file){
-let r=new FileReader();
-r.onload=function(e){data.photo=e.target.result;localStorage.setItem('hassan_full',JSON.stringify(data));render();alert('فوٹو بھی بدل گئی!');};
-r.readAsDataURL(file);
-}else{
-localStorage.setItem('hassan_full',JSON.stringify(data));render();alert('سب کچھ Save ہو گیا!');
+if(file){let r=new FileReader(); r.onload=function(e){data.photo=e.target.result; localStorage.setItem('hassan_full',JSON.stringify(data)); render(); alert('سب Save ہو گیا!');}; r.readAsDataURL(file);}
+else{localStorage.setItem('hassan_full',JSON.stringify(data)); render(); alert('سب Save ہو گیا!');}
 }
+function changePass(){let np=document.getElementById('newPass').value; if(!np){alert('نیا پاسورڈ لکھیں');return;} myPass=np; localStorage.setItem('hassan_pass',np); alert('پاسورڈ بدل گیا! نیا پاسورڈ: '+np); document.getElementById('newPass').value='';}
+function login(){let p=prompt('Admin Password لکھیں:'); if(p===myPass){isAdmin=true; document.getElementById('panel').style.display='block'; render(); alert('Welcome! اب آپ ہر چیز بدل سکتے ہو');} else{alert('غلط پاسورڈ!');}}
+function logout(){isAdmin=false; document.getElementById('panel').style.display='none'; render();}
+function addLink(){let t=document.getElementById('type').value; let name=document.getElementById('title').value||t; let url=document.getElementById('url').value; if(!url){alert('لنک لکھیں');return;} data.links.push({name:name,url:url,type:t}); localStorage.setItem('hassan_full',JSON.stringify(data)); render(); document.getElementById('url').value=''; alert(name+' Add ہو گیا!');}
+function delLink(i){if(confirm('Remove کریں؟')){data.links.splice(i,1); localStorage.setItem('hassan_full',JSON.stringify(data)); render();}}
+function makeCodeForAll(){
+let code = document.documentElement.outerHTML;
+document.getElementById('finalCode').style.display='block';
+document.getElementById('finalCode').value = code;
+document.getElementById('copyCodeBtn').style.display='block';
+alert('نیا کوڈ بن گیا! نیچے سے کاپی کر کے GitHub میں پیسٹ کر دو، پھر سب کو نیا والا نظر آئے گا');
 }
-function login(){
-let p=prompt('Admin Password لکھیں:');
-if(p==='hassan123'){isAdmin=true;document.getElementById('panel').style.display='block';render();alert('Welcome Hassan! اب آپ ہر چیز بدل سکتے ہو');}
-else{alert('غلط پاسورڈ!');}
-}
-function logout(){isAdmin=false;document.getElementById('panel').style.display='none';render();alert('Logout ہو گیا');}
-function addLink(){
-let t=document.getElementById('type').value;
-let name=document.getElementById('title').value||t;
-let url=document.getElementById('url').value;
-if(!url){alert('لنک لکھیں');return;}
-data.links.push({name:name,url:url,type:t});
-localStorage.setItem('hassan_full',JSON.stringify(data));render();
-document.getElementById('url').value='';
-alert(name+' Add ہو گیا!');
-}
-function delLink(i){if(confirm('اس کو Remove کریں؟')){data.links.splice(i,1);localStorage.setItem('hassan_full',JSON.stringify(data));render();}}
+function copyFinal(){navigator.clipboard.writeText(document.getElementById('finalCode').value); alert('کوڈ کاپی ہو گیا! اب GitHub میں پیسٹ کر دو');}
 render();
 let pageUrl=window.location.href;
 document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(pageUrl);

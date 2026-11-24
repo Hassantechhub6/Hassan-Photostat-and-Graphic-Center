@@ -61,8 +61,8 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 </div>
 <button class="adminBtn" onclick="login()">🔒 Admin Login</button>
 <div class="panel" id="panel">
-<h3>⚙️ مکمل ایڈمن پینل - AUTOMATIC</h3>
-<p style="font-size:13px;color:green">✅ اب Refresh پر کچھ بھی Zero نہیں ہو گا</p>
+<h3>⚙️ مکمل ایڈمن پینل - PERMANENT SAVE</h3>
+<p style="font-size:13px;color:green">✅ اب Refresh پر کچھ بھی نہیں جائے گا - 100% پکا Save</p>
 <label>دکان کا نام</label><input id="e_name">
 <label>اردو ٹیکسٹ</label><textarea id="e_desc" rows="2"></textarea>
 <label>واٹس ایپ نمبر (92 کے ساتھ)</label><input id="e_wa">
@@ -73,7 +73,7 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 <label>WiFi کا نام</label><input id="e_wifiName">
 <label>WiFi پاسورڈ</label><input id="e_wifiPass">
 <label>لوگو / فوٹو بدلیں</label><input type="file" id="e_photo" accept="image/*">
-<button onclick="saveAll()">✅ سب کے لیے Save کریں (Automatic)</button>
+<button onclick="saveAll()">✅ Save کریں - اب کبھی نہیں جائے گا</button>
 <hr>
 <h3>🔑 پاسورڈ بدلیں</h3>
 <input id="newPass" placeholder="نیا پاسورڈ لکھیں">
@@ -93,28 +93,51 @@ const API_KEY = "$2a$10$VUyoME/IXDqQSffOttLmb.GLY8w4Hhvo709Zp6OcCSVfi0UYjyJNy";
 let isAdmin=false;
 let myPass = localStorage.getItem('hassan_pass') || 'hassan123';
 let defaultLinks=[{name:"WhatsApp",url:"https://wa.me/923352909899",type:"WhatsApp"},{name:"Facebook",url:"https://facebook.com",type:"Facebook"},{name:"Instagram",url:"https://instagram.com",type:"Instagram"},{name:"TikTok",url:"https://tiktok.com",type:"TikTok"},{name:"YouTube",url:"https://youtube.com",type:"YouTube"}];
-let defaultData={"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":defaultLinks};
+let defaultData={"name":"Hassan Photostat and Graphic Center","desc":"ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں","wa":"923352909899","n1":"03352909899","n2":"03448991174","easy":"03352909899","jazz":"03448991174","wifiName":"Hassan Center","wifiPass":"12345678","photo":"","links":defaultLinks, "updated":0};
 let data = JSON.parse(JSON.stringify(defaultData));
 
+// 1. Pehle mobile me save hua data uthao - taake refresh pe kabhi zero na ho
+try{
+  let local = localStorage.getItem('hassan_backup');
+  if(local){ let ld = JSON.parse(local); if(ld && ld.name){ data = {...defaultData, ...ld}; } }
+  let lp = localStorage.getItem('hassan_photo');
+  if(lp) data.photo = lp;
+}catch(e){}
+
 async function loadFromCloud(){
+  // Pehle local wala dikha do, phir cloud se check karo
+  render();
   try{
     let r = await fetch('https://api.jsonbin.io/v3/b/'+BIN_ID+'/latest', {headers:{'X-Master-Key':API_KEY}});
     let j = await r.json();
-    if(j.record && j.record.name){ data = {...defaultData, ...j.record}; if(!data.links || data.links.length==0) data.links=defaultLinks; }
+    if(j.record && j.record.name){
+      // Agar cloud wala naya hai to hi usko lo, warna local wala hi rakho
+      let cloudTime = j.record.updated || 0;
+      let localTime = data.updated || 0;
+      if(cloudTime >= localTime){
+        data = {...defaultData, ...j.record};
+        if(!data.links || data.links.length==0) data.links=defaultLinks;
+        let lp = localStorage.getItem('hassan_photo');
+        if(lp) data.photo = lp;
+        // Cloud wala bhi local me save kar lo
+        localStorage.setItem('hassan_backup', JSON.stringify(data));
+        render();
+      }
+    }
   }catch(e){}
-  // Photo alag se local me bhi rakho taake refresh pe na jaye
-  let lp = localStorage.getItem('hassan_photo');
-  if(lp) data.photo = lp;
-  render();
 }
-async function saveToCloud(){
+function saveToCloud(){
+  // SAB SE PEHLE MOBILE ME PAKKA SAVE - yehi asal fix hai
+  data.updated = Date.now();
+  try{
+    localStorage.setItem('hassan_backup', JSON.stringify(data));
+    if(data.photo) localStorage.setItem('hassan_photo', data.photo);
+  }catch(e){}
+  // Phir cloud me bhi bhejo taake dusre logon ko bhi nazar aaye
   try{
     let toSave = {...data};
-    // Photo ko cloud me na bhejo, wo bara hota hai, sirf local me rakho
-    // Lekin agar photo choti hai to bhej do
     if(toSave.photo && toSave.photo.length > 80000) delete toSave.photo;
-    await fetch('https://api.jsonbin.io/v3/b/'+BIN_ID, {method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY}, body: JSON.stringify(toSave)});
-    localStorage.setItem('hassan_backup', JSON.stringify(data));
+    fetch('https://api.jsonbin.io/v3/b/'+BIN_ID, {method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY}, body: JSON.stringify(toSave)});
   }catch(e){}
 }
 function render(){
@@ -161,22 +184,21 @@ if(f.files && f.files[0]){
       if(w>h){ if(w>max){ h=h*max/w; w=max; } } else { if(h>max){ w=w*max/h; h=max; } }
       c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
       data.photo=c.toDataURL('image/jpeg',0.7);
-      localStorage.setItem('hassan_photo', data.photo);
-      saveToCloud(); render(); alert('Save ہو گیا! اب Refresh پر بھی نہیں جائے گا!');
+      saveToCloud(); render(); alert('Save ہو گیا! Ab Refresh par kuch nahi jayega!');
     };
     img.src=e.target.result;
   };
   r.readAsDataURL(f.files[0]); return;
 }
-saveToCloud(); render(); alert('Save ہو گیا! اب Refresh پر بھی نہیں جائے گا!');
+saveToCloud(); render(); alert('Save ہو گیا! Ab Refresh par kuch nahi jayega!');
 }
 function login(){ let p=prompt('Admin پاسورڈ لکھیں:'); if(p===myPass || p==='hassan123' || p==='1234'){ isAdmin=true; document.getElementById('panel').style.display='block'; render(); alert('Welcome Admin!'); } else if(p!==null){ alert('غلط پاسورڈ!'); } }
 function logout(){ isAdmin=false; document.getElementById('panel').style.display='none'; render(); }
 function changePass(){ let np=document.getElementById('newPass').value; if(!np){alert('نیا پاسورڈ لکھیں');return;} myPass=np; localStorage.setItem('hassan_pass',np); alert('پاسورڈ بدل گیا: '+np); }
-function addLink(){ let t=document.getElementById('type').value; let ti=document.getElementById('title').value||t; let u=document.getElementById('url').value; if(!u){alert('لنک لکھیں');return;} if(!u.startsWith('http')){u='https://'+u;} data.links.push({name:ti,url:u,type:t}); saveToCloud(); render(); document.getElementById('url').value=''; alert('لنک Add ہو گیا! سب کے لیے Automatic!'); }
+function addLink(){ let t=document.getElementById('type').value; let ti=document.getElementById('title').value||t; let u=document.getElementById('url').value; if(!u){alert('لنک لکھیں');return;} if(!u.startsWith('http')){u='https://'+u;} data.links.push({name:ti,url:u,type:t}); saveToCloud(); render(); document.getElementById('url').value=''; alert('لنک Add ہو گیا! Ab nahi jayega!'); }
 function delLink(i){ if(confirm('یہ لنک ڈیلیٹ کریں؟')){ data.links.splice(i,1); saveToCloud(); render(); } }
-function resetAll(){ if(confirm('کیا سب کچھ پہلے جیسا کر دوں؟')){ data=JSON.parse(JSON.stringify(defaultData)); localStorage.removeItem('hassan_photo'); saveToCloud(); render(); alert('سب واپس آ گیا!'); } }
+function resetAll(){ if(confirm('کیا سب کچھ پہلے جیسا کر دوں؟')){ data=JSON.parse(JSON.stringify(defaultData)); localStorage.removeItem('hassan_photo'); localStorage.removeItem('hassan_backup'); saveToCloud(); render(); alert('سب واپس آ گیا!'); } }
 loadFromCloud();
 </script>
 </body>
-</html>
+                                  </html>

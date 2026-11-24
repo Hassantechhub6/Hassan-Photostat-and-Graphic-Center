@@ -1,10 +1,104 @@
-<!doctype html>
-<html lang="ur" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#111827" />
-    <title>Hassan Photostat and Graphic Center</title>
-  </head>
-  <body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body>
-</html>
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hassan Photostat and Graphic Center</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0a1a2e;color:#fff;text-align:center;padding:20px 15px}
+.lang{background:#1c2f45;padding:8px 15px;border-radius:10px;display:inline-block;float:left;font-weight:bold}
+.logo{width:150px;height:150px;border:4px solid #d4af37;border-radius:50%;margin:50px auto 15px;background:#0f2a4a;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.logo span{font-size:38px}
+.logo b{color:#d4af37;font-size:11px;line-height:1.4}
+h1{color:#d4af37;font-size:29px;line-height:1.2}
+.urdu{font-size:22px;margin:12px 0 20px;line-height:1.6}
+.btn{display:block;background:#25D366;color:#fff;padding:16px;border-radius:14px;text-decoration:none;font-size:22px;font-weight:bold;margin:12px 0}
+.num{background:#16293f;border:1px solid #2a4a65;padding:16px;border-radius:14px;margin:12px 0;font-size:20px;font-weight:bold}
+.pay{display:flex;gap:10px;margin:12px 0}
+.pay div{flex:1;padding:15px;border-radius:14px;font-weight:bold;font-size:17px}
+.easy{background:#00a651}.jazz{background:#f68b1e}
+.follow{color:#d4af37;font-size:26px;margin:30px 0 15px}
+.linkbtn{display:flex;justify-content:space-between;align-items:center;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-decoration:none;margin:10px 0;font-size:18px;font-weight:bold}
+.linkbtn.fb{background:#1877F2}.linkbtn.ig{background:#E1306C}.linkbtn.tt{background:#000;border:1px solid #444}
+.del{background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
+.panel{background:#fff;color:#222;padding:15px;border-radius:14px;margin-top:25px;text-align:left}
+.panel h3{margin-bottom:10px}
+.panel input,.panel select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+.panel button{background:#0b5e2e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-size:16px;margin-top:8px}
+.qrbox{background:#fff;padding:15px;border-radius:14px;margin-top:15px;color:#222}
+.qrbox img{width:180px;height:180px}
+small{color:#aaa}
+</style>
+</head>
+<body>
+
+<div class="lang">English 🌐</div>
+
+<div class="logo"><span>🖨️</span><b>HASSAN<br>PHOTOSTAT<br>AND GRAPHIC<br>CENTER</b></div>
+
+<h1>Hassan Photostat and Graphic Center</h1>
+<p class="urdu">ہم فوٹو سٹیٹ، پرنٹنگ، گرافک ڈیزائن، کمپوزنگ اور ڈیجیٹل سروسز فراہم کرتے ہیں</p>
+
+<a class="btn" href="https://wa.me/923352909899">واٹس ایپ پر پیغام بھیجیں 📱</a>
+
+<div class="num">📞 03352909899</div>
+<div class="num">📞 03448991174</div>
+
+<div class="pay">
+<div class="easy">Easypaisa<br>03352909899<br>03448991174</div>
+<div class="jazz">JazzCash<br>03352909899<br>03448991174</div>
+</div>
+<p style="font-size:14px;color:#ccc;">پیمنٹ ان دونوں نمبروں پر بھیج سکتے ہیں</p>
+
+<h2 class="follow">ہمیں فالو کریں</h2>
+<div id="links"></div>
+
+<div class="qrbox">
+<h3>اس پیج کا QR Code</h3>
+<p>کوئی بھی اسکین کرے گا تو یہی پیج کھل جائے گا</p><br>
+<img id="qr" src="">
+<br><br><small id="linkText"></small>
+</div>
+
+<div class="panel">
+<h3>⚙️ ایڈمن پینل - لنک Add / Remove کریں</h3>
+<select id="type">
+<option value="WhatsApp">WhatsApp</option>
+<option value="Facebook">Facebook</option>
+<option value="Instagram">Instagram</option>
+<option value="TikTok">TikTok</option>
+</select>
+<input id="title" placeholder="نام لکھیں - جیسے Instagram">
+<input id="url" placeholder="لنک لکھیں - https://...">
+<button onclick="addLink()">+ Add کر دیں</button>
+<p style="font-size:13px;margin-top:8px;">نوٹ: لنک Add کرنے کے بعد وہ اوپر سب کو نظر آئے گا۔ Remove کرنے کے لیے لنک کے ساتھ والے ✕ پر کلک کریں۔</p>
+</div>
+
+<script>
+let links = JSON.parse(localStorage.getItem('hassan_links') || '[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]');
+function show(){
+let h=document.getElementById('links'); h.innerHTML='';
+links.forEach((l,i)=>{
+let cls = l.type=='Facebook'?'fb':l.type=='Instagram'?'ig':l.type=='TikTok'?'tt':'';
+h.innerHTML += `<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn ${cls}" style="flex:1" href="${l.url}" target="_blank"><span>${l.name}</span><span>↗</span></a><button class="del" onclick="delLink(${i})">✕</button></div>`;
+});
+}
+function addLink(){
+let t=document.getElementById('type').value;
+let name=document.getElementById('title').value || t;
+let url=document.getElementById('url').value;
+if(!url){alert('لنک لکھیں');return;}
+links.push({name:name,url:url,type:t});
+localStorage.setItem('hassan_links',JSON.stringify(links));
+show();
+document.getElementById('url').value='';
+}
+function delLink(i){links.splice(i,1);localStorage.setItem('hassan_links',JSON.stringify(links));show();}
+show();
+let pageUrl = window.location.href;
+document.getElementById('qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(pageUrl);
+document.getElementById('linkText').innerText = pageUrl;
+</script>
+</body>
+</html

@@ -21,13 +21,13 @@ h1{color:#d4af37;font-size:29px;line-height:1.2}
 .follow{color:#d4af37;font-size:26px;margin:30px 0 15px}
 .linkbtn{display:flex;justify-content:space-between;align-items:center;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-decoration:none;margin:10px 0;font-size:18px;font-weight:bold}
 .linkbtn.fb{background:#1877F2}.linkbtn.ig{background:#E1306C}.linkbtn.tt{background:#000;border:1px solid #444}
-.del{background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer}
-.panel{background:#fff;color:#222;padding:15px;border-radius:14px;margin-top:25px;text-align:left}
-.panel h3{margin-bottom:10px}
+.del{background:#ff3b30;color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;display:none}
+.panel{background:#fff;color:#222;padding:15px;border-radius:14px;margin-top:25px;text-align:left;display:none}
 .panel input,.panel select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
 .panel button{background:#0b5e2e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-size:16px;margin-top:8px}
 .qrbox{background:#fff;padding:15px;border-radius:14px;margin-top:15px;color:#222}
 .qrbox img{width:180px;height:180px}
+.adminBtn{background:#222;color:#fff;border:1px solid #444;padding:8px 15px;border-radius:8px;margin-top:20px;font-size:13px}
 small{color:#aaa}
 </style>
 </head>
@@ -61,7 +61,9 @@ small{color:#aaa}
 <br><br><small id="linkText"></small>
 </div>
 
-<div class="panel">
+<button class="adminBtn" onclick="login()">🔒 Admin Login</button>
+
+<div class="panel" id="panel">
 <h3>⚙️ ایڈمن پینل - لنک Add / Remove کریں</h3>
 <select id="type">
 <option value="WhatsApp">WhatsApp</option>
@@ -72,18 +74,30 @@ small{color:#aaa}
 <input id="title" placeholder="نام لکھیں - جیسے Instagram">
 <input id="url" placeholder="لنک لکھیں - https://...">
 <button onclick="addLink()">+ Add کر دیں</button>
-<p style="font-size:13px;margin-top:8px;">نوٹ: لنک Add کرنے کے بعد وہ اوپر سب کو نظر آئے گا۔ Remove کرنے کے لیے لنک کے ساتھ والے ✕ پر کلک کریں۔</p>
+<button style="background:#ff3b30" onclick="logout()">Logout کریں</button>
 </div>
 
 <script>
+let isAdmin = false;
 let links = JSON.parse(localStorage.getItem('hassan_links') || '[{"name":"WhatsApp","url":"https://wa.me/923352909899","type":"WhatsApp"},{"name":"Facebook","url":"https://facebook.com","type":"Facebook"},{"name":"Instagram","url":"https://instagram.com","type":"Instagram"},{"name":"TikTok","url":"https://tiktok.com","type":"TikTok"}]');
 function show(){
 let h=document.getElementById('links'); h.innerHTML='';
 links.forEach((l,i)=>{
 let cls = l.type=='Facebook'?'fb':l.type=='Instagram'?'ig':l.type=='TikTok'?'tt':'';
-h.innerHTML += `<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn ${cls}" style="flex:1" href="${l.url}" target="_blank"><span>${l.name}</span><span>↗</span></a><button class="del" onclick="delLink(${i})">✕</button></div>`;
+let delBtn = isAdmin ? `<button class="del" style="display:block" onclick="delLink(${i})">✕</button>` : '';
+h.innerHTML += `<div style="display:flex;gap:8px;align-items:center;"><a class="linkbtn ${cls}" style="flex:1" href="${l.url}" target="_blank"><span>${l.name}</span><span>↗</span></a>${delBtn}</div>`;
 });
 }
+function login(){
+let p = prompt('Admin Password لکھیں:');
+if(p === 'hassan123'){
+isAdmin = true;
+document.getElementById('panel').style.display='block';
+show();
+alert('Welcome Hassan! اب آپ Add / Remove کر سکتے ہو');
+}else{alert('غلط پاسورڈ!');}
+}
+function logout(){isAdmin=false;document.getElementById('panel').style.display='none';show();}
 function addLink(){
 let t=document.getElementById('type').value;
 let name=document.getElementById('title').value || t;
@@ -101,4 +115,4 @@ document.getElementById('qr').src = 'https://api.qrserver.com/v1/create-qr-code/
 document.getElementById('linkText').innerText = pageUrl;
 </script>
 </body>
-</html
+</html>
